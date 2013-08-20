@@ -1,0 +1,27 @@
+class Solution {
+public:
+	void generate(vector<string> &ret, string s, int l, int r, int n)
+	{
+		if (l == n)
+		{
+			s.append(n-r, ')');
+			ret.push_back(s);
+			return ;
+		}
+		
+		generate(ret, s+'(', l+1, r, n);
+		if (l > r)
+		{
+			s.push_back(')');
+			generate(ret, s, l, r+1, n);
+		}
+	}
+	vector<string> generateParenthesis(int n) {
+		// Start typing your C/C++ solution below
+		// DO NOT write int main() function
+		vector<string> ret;
+		generate(ret, "(", 1, 0, n);
+		return ret;
+	}
+
+};
