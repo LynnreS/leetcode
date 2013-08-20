@@ -1,0 +1,48 @@
+class Solution {
+public:
+	void calIP(string s, int idx, int &num, vector<string> &ret, string &ip) {
+		if(num == 3) {
+			if(s.begin()+idx+3 < s.end()) return;
+			string tmp(s.begin()+idx, s.end());
+			if(tmp.size()>1 && tmp[0] == '0') return;
+			string cst = "255";
+			if(tmp.size()<3 || tmp <= cst) {
+				ip.insert(ip.end(), tmp.begin(), tmp.end());
+				ret.push_back(ip);
+				int j = tmp.size();
+				while(j--) ip.pop_back();
+			}
+		}
+		else
+		{
+
+			int m = idx + 3;
+			for(int i = idx+1; i <= m; i++) {
+				if(s.begin()+i >= s.end()) break;
+				string tmp(s.begin()+idx, s.begin()+i);
+				if(tmp.size()>1 && tmp[0] == '0') break;
+				string cst = "255";
+				if(tmp.size()<3 || tmp <= cst) {
+					ip.insert(ip.end(), tmp.begin(), tmp.end());
+					ip.push_back('.');
+					num++;
+					calIP(s, i, num, ret, ip);
+					int j = i+1-idx;
+					while(j--) ip.pop_back();
+					num--;
+				}
+			}
+		}
+	}
+	vector<string> restoreIpAddresses(string s) {
+		// Start typing your C/C++ solution below
+		// DO NOT write int main() function
+		int len = s.length();
+		vector<string> ret;
+		if(len < 4 || len > 12) return ret;
+		string ip;
+		int num = 0;
+		calIP(s, 0, num, ret, ip);
+		return ret;
+	}
+};
