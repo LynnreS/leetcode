@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string simplifyPath(string path) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int pos=0,last=0;
+        path+="/";
+        for(int i=0;i<path.size();i++)
+        {
+            if(path[i]=='/')
+            {
+                if(i>=2 && path[i-1]=='.' && path[i-2]=='.')
+                {
+                    while(--pos>=0) if(path[pos]=='/') break;
+                    if(pos<0) pos=0;
+                }
+                else if(i>=1 && path[i-1]!='/' && path[i-1]!='.') 
+                {
+                    for(int j=last;j<i;j++) path[pos++]=path[j];
+                }
+                last=i; 
+            }
+        }
+    
+        if(pos==0) path="/",pos++;
+        path.resize(pos);
+        return path;
+    }
+};
