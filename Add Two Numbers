@@ -1,0 +1,122 @@
+// Definition for singly-linked list.
+struct ListNode {
+	int val;
+	ListNode *next;
+	ListNode(int x) : val(x), next(NULL) {}
+};
+
+class Solution {
+public:
+	ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
+		// Start typing your C/C++ solution below
+		// DO NOT write int main() function
+		int tmp = 0;
+		ListNode *ls;
+		ListNode *t;
+		ListNode *r = l1;
+		while (l1->next != NULL && l2->next != NULL)
+		{
+			int sum = l1->val + l2->val + tmp;
+			if (sum > 9)
+			{
+				sum -= 10;
+				tmp = 1;
+			}
+			else
+				tmp = 0;
+			l1->val = sum;
+			l1 = l1->next;
+			l2 = l2->next;
+		}
+		if (l1->next == NULL && l2->next == NULL)
+		{
+			int sum = l1->val + l2->val + tmp;
+			if (sum > 9)
+			{
+				sum -= 10;
+				tmp = 1;
+			}
+			else
+				tmp = 0;
+			l1->val = sum;
+			if (tmp > 0)
+			{
+				t = new ListNode(tmp);
+				//t->val = tmp;
+				l1->next = t;
+				l1 = l1->next;
+			}
+		}
+		if (l1->next != NULL)
+		{
+			int sum = l1->val + l2->val + tmp;
+			if (sum > 9)
+			{
+				sum -= 10;
+				tmp = 1;
+			}
+			else
+				tmp = 0;
+			l1->val = sum;
+			l1 = l1->next;
+			while(l1->next != NULL && tmp > 0)
+			{
+				l1->val += tmp;
+				if (l1->val > 9)
+				{
+					l1->val -= 10;
+					tmp = 1;
+				}
+				else
+					tmp = 0;
+				l1 = l1->next;
+			}
+			l1->val += tmp;
+			if (l1->val > 9)
+			{
+				l1->val -= 10;
+				tmp = 1;
+				t = new ListNode(tmp);
+				//	t->val = tmp;
+				l1->next = t;
+				//	l1 = l1->next;
+			}
+		}
+		if (l2->next != NULL)
+		{
+			int sum = l1->val + l2->val + tmp;
+			if (sum > 9)
+			{
+				sum -= 10;
+				tmp = 1;
+			}
+			else
+				tmp = 0;
+			l1->val = sum;
+			l1->next = l2->next;
+			l1 = l1->next;
+			while(l1->next != NULL && tmp > 0)
+			{
+				l1->val += tmp;
+				if (l1->val > 9)
+				{
+					l1->val -= 10;
+					tmp = 1;
+				}
+				else
+					tmp = 0;
+				l1 = l1->next;
+			}
+			l1->val += tmp;
+			if (l1->val > 9)
+			{
+				l1->val -= 10;
+				tmp = 1;
+				t = new ListNode(tmp);
+				//	t->val = tmp;
+				l1->next = t;
+			}
+		}
+		return r;
+	}
+};
