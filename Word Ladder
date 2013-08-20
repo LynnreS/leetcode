@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int ladderLength(string start, string end, unordered_set<string> &dict) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int ret = 0;
+        if(start == end) return ret;
+        queue<string> q;
+        unordered_set<string> ladder;
+        q.push(start);
+        ladder.insert(start);
+        int cnt1 = 1, cnt2 = 0;
+        
+        while(!q.empty()) {
+            string str = q.front();
+            q.pop();
+            cnt1--;
+            for(int i = 0; i < start.length(); i++) {
+                string tmp = str;
+                for(int j = 0; j < 26; j++) {
+                    tmp[i] = 'a' + j;
+                    if(tmp == end) return ret + 2;
+                    if(dict.find(tmp)!=dict.end() && ladder.find(tmp)==dict.end()) {
+                        ladder.insert(tmp);
+                        q.push(tmp);
+                        cnt2++;
+                    }
+                }
+            }
+            if(cnt1==0) {
+                ret++;
+                cnt1 = cnt2;
+                cnt2 = 0;
+            }
+        }
+        return 0;
+    }
+};
