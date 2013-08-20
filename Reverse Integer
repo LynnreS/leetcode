@@ -1,0 +1,23 @@
+class Solution {
+public:
+	int reverse(int x) {
+		// Start typing your C/C++ solution below
+		// DO NOT write int main() function
+		int tmp2;
+		int tmp1 = abs(x);
+		int ret = 0;
+		tmp2 = tmp1 / 10;
+		while (tmp2)
+		{
+			ret = ret * 10 + tmp1%10;
+			tmp1 = tmp1 / 10;
+			tmp2 = tmp1 / 10;
+		}
+		ret = ret * 10 + tmp1%10;
+		if (x < 0)
+		{
+			ret = -ret;
+		}
+		return ret;
+	}
+};
