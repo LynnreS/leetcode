@@ -1,0 +1,30 @@
+class Solution {
+public:
+    void sub(vector<int> num, vector<vector<int> > &ret, vector<int> &str, vector<bool> &flag) {
+        if(str.size() == num.size()) {
+            ret.push_back(str);
+            return;
+        }
+        for(int i = 0; i < num.size(); i++) {
+            if(flag[i]) continue;
+            if(i!=0 && num[i]==num[i-1] && flag[i-1])  continue;
+
+            str.push_back(num[i]);
+            flag[i] = true;
+            sub(num, ret, str, flag);
+            str.pop_back();
+            flag[i] = false;
+        }
+    }
+    vector<vector<int> > permuteUnique(vector<int> &num) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int len = num.size();
+        vector<vector<int> > ret;
+        vector<bool> flag(len, false);
+        vector<int> str;
+        sort(num.begin(), num.end());
+        sub(num, ret, str, flag);
+        return ret;
+    }
+};
