@@ -1,0 +1,55 @@
+class Solution {
+      public:
+      string findSubPal(string s, int l, int r)
+      {
+          if (l < 0)
+          {
+           if (s[0] == s[1])
+           {
+               return s.substr(0, 2);
+           }
+           else
+               return s.substr(0, 1);
+          }
+            if (r >= s.size())
+            {
+                if (s[r-2] == s[r-1])
+                {
+                   return s.substr(r-2, 2);
+                }
+                else
+                   return s.substr(r-1, 1);
+            }
+        while (l >= 0 && r < s.size() && s[l] == s[r])
+        {
+            l--;
+            r++;
+        }
+        ++l;
+        string test = s.substr(l, r-l);
+        return s.substr(l, r-l);
+        }
+    string longestPalindrome(string s) {
+    // Start typing your C/C++ solution below
+    // DO NOT write int main() function
+    if (s.size() <= 1)
+    {
+       return s;
+    }
+    string ret;
+    for (int i = 0; i < s.size(); i++)
+    {
+        string tmp = findSubPal(s, i-1, i+1);
+        if (tmp.size() > ret.size())
+        {
+           ret = tmp;
+        }
+        string tmp1 = findSubPal(s, i, i+1);
+        if (tmp1.size() > ret.size())
+        {
+           ret = tmp1;
+        }
+    }
+    return ret;
+    }
+};
