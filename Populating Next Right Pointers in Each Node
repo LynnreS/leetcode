@@ -1,0 +1,26 @@
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        if(!root) return;
+        
+        while(root->left || root->right){
+            if(root->left){
+                root->left->next = root->right;
+            }
+            if(root->right && root->next){
+                root->right->next = root->next->left;
+            }
+            TreeLinkNode *t = root->next;
+            while(t){
+                
+                if(t->left) t->left->next = t->right;
+                if(t->right && t->next) t->right->next = t->next->left;
+                t = t->next;
+            }
+            root = root->left;
+        }
+       
+    }
+};
