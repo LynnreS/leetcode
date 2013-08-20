@@ -1,0 +1,75 @@
+class Solution {
+public:
+	  ListNode *reverseKGroup(ListNode *head, int k) {
+		  // Start typing your C/C++ solution below
+		  // DO NOT write int main() function
+		  if (head == NULL)
+		  {
+			  return head;
+		  }
+		 
+		  ListNode *ret = head;
+		  int len = 0;
+		  while (ret)
+		  {
+			  len++;
+			  ret = ret->next;
+		  }
+		  if (k > len)
+		  {
+			  return head;
+		  }
+		  int i = 0;
+		  ret = head;
+		  ListNode *p[30];
+		  bool flag = true;
+		  while (true)
+		  {
+			  i = 0;
+			  while(i < k)
+			  {
+				  p[i] = ret;
+				  ret = ret->next;
+				  i++;
+				  if (ret == NULL)
+				  {
+					  break;
+				  }
+				  
+			  }
+			  if ( i != k)
+			  {
+				  break;
+			  }
+			  ListNode *t = p[k-1]->next;
+			  i--;
+			  if (!flag)
+			  {
+				  ret = head;
+				  while(ret->next != p[0])
+					  ret = ret->next;
+				  ret->next = p[i];
+			  }
+			  
+			  while(i > 0)
+			  {
+				  p[i]->next = p[i-1];
+				  i--;
+			  }
+			  p[i]->next = t;
+			  ret = t;
+			  if (flag)
+			  {
+				  head = p[k-1];
+				  flag = false;
+			  }
+			  if (ret == NULL)
+			  {
+				  break;
+			  }
+			  
+		  }
+		  
+		  return head;
+	  }
+  };
