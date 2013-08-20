@@ -1,0 +1,44 @@
+class Solution {
+public:
+    vector<vector<bool> >col, row, grid;
+	bool sub(vector<vector<char> > &board, int idx){
+
+		while(idx < 81 && (board[idx/9][idx%9] != '.') )
+			idx++;
+		if(idx == 81) return true;
+		int i = idx / 9;
+		int j = idx % 9;
+		for(int k = 1; k < 10; k++){
+			int c = k - 1;
+			if(row[i][c]) continue; 
+			if(col[j][c]) continue;
+			if(grid[(i/3)*3+j/3][c]) continue;
+			board[i][j] = c + '1';
+			row[i][c] = col[j][c] = grid[(i/3)*3+j/3][c] = true;
+			if(sub(board, idx+1))
+				return true;
+			board[i][j] = '.';
+			row[i][c] = col[j][c] = grid[(i/3)*3+j/3][c] = false;
+		}
+		return false;
+
+	}
+	void solveSudoku(vector<vector<char> > &board) {
+		// Start typing your C/C++ solution below
+		// DO NOT write int main() function
+		row.clear();
+        col.clear();
+        grid.clear();
+		col.resize(9, vector<bool>(9, false));
+		row.resize(9, vector<bool>(9, false));
+		grid.resize(9, vector<bool>(9, false));
+		for (int i = 0; i < 9; i++){
+			for (int k = 0; k < 9; k++){
+				if (board[i][k] != '.'){
+					col[k][board[i][k]-'1'] = row[i][board[i][k]-'1'] = grid[(i/3)*3+k/3][board[i][k]-'1'] = true;
+				}
+			}
+		}
+		sub(board, 0);
+	}
+};
