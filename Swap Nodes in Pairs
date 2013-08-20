@@ -1,0 +1,29 @@
+class Solution {
+public:
+    ListNode *swapPairs(ListNode *head) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+		if (head == NULL || head->next == NULL)
+		{
+			return head;
+		}
+		ListNode *p, *q;
+		ListNode *ret = head->next;
+		p = head;
+		q = p->next;
+        while (p && q)
+        {		
+			head->next = q;
+			ListNode *t = q->next;
+			q->next = p;
+			p->next = t;
+			head = p;
+			p = t;
+			if (t)
+			{
+				q = t->next;
+			}		
+        }
+		return ret;
+    }
+};
