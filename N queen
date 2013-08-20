@@ -1,0 +1,43 @@
+class Solution {
+public:
+	int anchor;
+	int nn;
+	vector<int> idx;
+	vector<vector<string> > ans;
+	void queen(int row, int r, int l) {
+		if(row == anchor) {
+			if(idx.size() == nn) {
+				vector<string> str(nn, string(nn, '.'));
+				for(int i = 0; i < nn; i++) {
+					int k = 0;
+					while(idx[i]) {
+						idx[i] >>= 1;
+						k++;
+					}
+					k = nn - k;
+					str[i][k] = 'Q';
+				}
+				ans.push_back(str);
+			}
+			//idx.clear();
+			return;
+		}
+		int t = anchor & (~(row|r|l));
+		while(t) {
+			int p = t & (~t+1);
+			t -= p;
+			idx.push_back(p);
+			queen(row|p, (r|p)>>1, (l|p)<<1);
+			idx.pop_back();
+		}
+	}
+	vector<vector<string> > solveNQueens(int n) {
+		// Start typing your C/C++ solution below
+		// DO NOT write int main() function
+		anchor = (1<<n) - 1;
+		nn = n;
+		
+		queen(0, 0, 0);
+		return ans;
+	}
+};
