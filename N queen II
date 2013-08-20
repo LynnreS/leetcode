@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int anchor；
+    void queen(int row, int r, int l, int &sum) {
+        if(row == anchor) {
+            sum++;
+            return;
+        }
+        int t = anchor & (~(row|r|l));
+// row|r|l表示当前行所有不可用的位置（记为1），取反后，不可用的位置变为0，可用位置为1，再和一个全1的数做与运算，得到当前行可用的位置。
+        while(t){//对于当前行每一个可用位置，分别进行测试
+            int p = t & (~t+1);//每次取最右的可用位置
+            t -= p;//修改可用位置标记
+            queen(row|p, (r|p)>>1, (l|p)<<1, sum);//当前列变为不可用，主对角线当前列置为不可用后要右移一位，副对角线当前列置为不可用后要左移一位。
+        }
+    }
+    int totalNQueens(int n) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int ret = 0;
+        anchor = (1<<n) - 1; //注意，移位运算符的优先级比二元运算符、赋值运算符低。
+        queen(0, 0, 0, ret);
+        return ret;
+    }
+};
