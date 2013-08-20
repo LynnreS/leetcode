@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        string ret;
+        if(num1.empty() || num2.empty()) return ret;
+        int l1 = num1.length();
+        int l2 = num2.length();
+        vector<int> s(l1+l2, 0);
+        for(int i = l1-1; i >= 0; i--){
+            for(int j = l2-1; j >= 0; j--){
+                s[i+j+1] += (num1[i]-'0') * (num2[j]-'0');
+            }
+        }
+        int up = 0;
+        for(int i = l1+l2-1; i >= 0; i--){
+            s[i] += up;
+            if(s[i] >= 10){
+                up = s[i] / 10;
+                s[i] = s[i] % 10;
+                
+            }
+            else
+                up = 0;
+        }
+        int i = 0;
+        while(s[i] == 0) i++;
+        for(; i < l1+l2; i++){
+            
+            ret.push_back(s[i]+'0');
+        }
+        if(ret.empty()) return "0";
+        return ret;
+    }
+};
