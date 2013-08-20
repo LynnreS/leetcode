@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int numDistinct(string S, string T) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        vector<int> num(T.length()+1, 0);
+        num[0] = 1;
+        for(int i = 0; i < S.length(); i++) {
+            for(int j = T.length()-1; j >= 0; j--) {
+                if(S[i] == T[j]) {
+                    num[j+1] += num[j];
+                }
+            }
+        }
+        return num[T.length()];
+    }
+};
