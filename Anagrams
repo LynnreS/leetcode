@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<string> anagrams(vector<string> &strs) {
+    	map<string, vector<string> > str_map;
+		for(int i = 0; i<strs.size(); i++) {
+			string s = strs[i];
+			sort(s.begin(), s.end());
+			str_map[s].push_back(strs[i]);
+		}
+		vector<string> ret;
+        map<string, vector<string> >::iterator it;
+		for(it=str_map.begin(); it != str_map.end(); it++ ) {
+			if(it->second.size() > 1) {
+                vector<string>::iterator st;
+				for(st = it->second.begin(); st != it->second.end(); st++ ) {
+					ret.push_back(*st);
+				}
+			}
+		}
+		return ret;
+	}
+};
