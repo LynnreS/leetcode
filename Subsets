@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<vector<int> > sub(vector<int> S) {
+        vector<vector<int> > ret;
+        vector<int> tmp;
+        ret.push_back(tmp);
+        if(S.empty()) return ret;
+        
+        tmp.insert(tmp.begin(), S.begin()+1, S.end());
+        ret = sub(tmp);
+        int len = ret.size();
+        for(int i = 0; i < len; i++) {
+            vector<int> new_s = ret[i];
+            new_s.insert(new_s.begin(), S[0]);
+            ret.push_back(new_s);
+        }
+        return ret;
+    }
+    vector<vector<int> > subsets(vector<int> &S) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        sort(S.begin(), S.end());
+        return sub(S);
+        
+    }
+};
