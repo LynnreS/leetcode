@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int trap(int A[], int n) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        if(n <= 2) return 0;
+        int maxHeight = 0;
+        for(int i = 1; i < n; i++) {
+            if(A[i] > A[maxHeight])
+                maxHeight = i;
+        }
+        int ret = 0;
+        int leftH = 0;
+        for(int i = 0; i < maxHeight; i++) {
+            if(leftH > A[i]) ret += leftH - A[i];
+            else leftH = A[i];
+        }
+        int rightH = 0;
+        for(int i = n-1; i > maxHeight; i--) {
+            if(rightH > A[i]) ret += rightH - A[i];
+            else rightH = A[i];
+        }
+        return ret;
+    }
+};
