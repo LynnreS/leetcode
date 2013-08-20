@@ -1,47 +1,40 @@
-int maxSubSum(vector<int> &data) {
-		
-		vector<int> sum(data.size());
-		sum[0] = data[0];
-		int ret = INT_MIN;
-		for(int i = 1; i < data.size(); i++) {
-				if(sum[i-1] > 0) {
-						sum[i] = sum[i-1] + data[i];
-				}
-				else
-						sum[i] = data[i];
-				if(ret < sum[i])
-						ret = sum[i]; 
-		}
-		
-		return ret;
-}
-
-int maxRecSum(vector<vector<int> > &data) {
-    int n = data.size();
-	  vector<vector<int> > sum(n, vector<int>(n, 0));
-    for(int i = 0; i < n; i++) {
-       for(int j = 0; j < n; j++) {
-           if(i==0) sum[i][j] = data[i][j];
-           else {
-                sum[i][j] = sum[i-1][j] + data[i][j];
-           }
-       }
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char> > &matrix) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int m = matrix.size();
+        if(!m) return 0;
+        int n = matrix[0].size();
+        if(!n) return 0;
+        vector<int> L(n);
+        vector<int> R(n, n);
+        vector<int> height(n);
+        int ret = 0;
+        for(int i = 0; i < m; i++) {
+            int maxl = 0, minr = n;
+            for(int j = 0; j < n; j++) {
+                if(matrix[i][j] == '0') {
+                    height[j] = 0;
+                    maxl = j+1;
+                    L[j] = 0;
+                    R[j] = n;
+                }
+                else {
+                    height[j]++;
+                    L[j] = max(L[j], maxl);
+                }
+            }
+            for(int j = n-1; j >= 0; j--) {
+                if(matrix[i][j] == '0') {
+                    minr = j;
+                }
+                else {
+                    R[j] = min(R[j], minr);
+                    ret = max(ret, height[j]*(R[j]-L[j]));
+                }
+            }
+        }
+        return ret;
     }
-    int ret(INT_MIN);
-    for(int i = 0; i < n; i++) {
-    		for(int j = i; j < n; j++) {
-    				vector<int> arr(data[0].size());
-    		    for(int k = 0; k < data[0].size(); k++) {
-    		    		if(i==0) {
-    		    				arr[k] = sum[j][k];
-    		    		}
-    		    		else {
-    		    				arr[k] = sum[j][k] - sum[i-1][k];
-    		    		}	
-    		    }
-    		    int t = maxSubSum(arr);
-    		    if(ret < t) ret = t;
-    		}
-    }
-		return ret;
-}
+};
