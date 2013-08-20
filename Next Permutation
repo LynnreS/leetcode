@@ -1,0 +1,60 @@
+class Solution {
+public:
+    void nextPermutation(vector<int> &num) {
+		// Start typing your C/C++ solution below
+		// DO NOT write int main() function
+		int i = 0, j, k;
+		bool flag = true;
+		for(i = num.size()-2; i >= 0; i--)
+		{
+			if(num[i] < num[i+1])
+			{
+				flag = false;
+				j = i;
+				int minm = num[i+1];
+				k = i+1;
+				if(i < num.size() - 2)
+				{
+					for(int p = i+2; p < num.size(); p++)
+					{
+						if(num[p] <= minm && num[p] > num[i])
+						{
+							minm = num[p];
+							k = p;
+						}
+					}
+				}
+				int tmp = num[j];
+				num[j] = num[k];
+				num[k] = tmp;
+				int low = j + 1;
+				int high = num.size() - 1;
+				while(low < high)
+				{
+					tmp = num[low];
+					num[low] = num[high];
+					num[high] = tmp;
+					low++;
+					high--;
+				}
+				break;
+			}
+
+		}
+		if(flag)
+		{
+			int low = 0;
+			int high = num.size() - 1;
+			while(low < high)
+			{
+				int tmp = num[low];
+				num[low] = num[high];
+				num[high] = tmp;
+				low++;
+				high--;
+			}
+		}
+
+
+	}
+};
