@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int maxProfit(vector<int> &prices) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        if(prices.empty()) return 0;
+        vector<int> fmax(3, 0);
+        vector<int> gmax(3, 0);
+        for(int i = 0; i < prices.size()-1; i++){
+            int diff = prices[i+1] - prices[i];
+            int j = min(i+1, 2);
+            for(int k = j; k >= 1; k--){
+                fmax[k] = max(fmax[k], gmax[k-1]) + diff;
+                gmax[k] = max(gmax[k], fmax[k]);
+            }
+        }
+        return max(gmax[1], gmax[2]);
+    }
+};
