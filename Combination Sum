@@ -1,0 +1,32 @@
+class Solution {
+public:
+    void sub(vector<vector<int> > &ret, vector<int> &candidates, int &idx, int &sum, int target, vector<int> &str) {
+        for(int i = idx; i < candidates.size(); i++) {
+            int tmp = sum + candidates[i];
+            if(tmp == target) {
+                str.push_back(candidates[i]);
+                ret.push_back(str);
+                str.pop_back();
+                return;
+            }
+            else if(tmp > target) return;
+            else {
+                str.push_back(candidates[i]);
+                sub(ret, candidates, i, tmp, target, str);
+                str.pop_back();
+            }
+        }
+    }
+    vector<vector<int> > combinationSum(vector<int> &candidates, int target) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        sort(candidates.begin(), candidates.end());
+        
+        vector<vector<int> > ret;
+        if(candidates.empty()) return ret;
+        vector<int> str;
+        int sum = 0, idx = 0;
+        sub(ret, candidates, idx, sum, target, str);
+        return ret;
+    }
+};
