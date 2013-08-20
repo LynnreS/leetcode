@@ -1,0 +1,77 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        if(a.length() == 0) return b;
+        if(b.length() == 0) return a;
+        int i = a.length() - 1;
+        int j = b.length() - 1;
+        string ret;
+        int k = 0;
+        while(i >= 0 && j >= 0){
+            int m = a[i] - '0';
+            int n = b[j] - '0';
+            int t = m + n + k;
+            char c;
+            if(t < 2){
+                c = t + '0';
+                k = 0;
+            }
+            else{
+                c = t - 2 +'0';
+                k = 1;
+            } 
+            ret.insert(ret.begin(), 1, c);
+            i--;
+            j--;
+        }
+        while(i >= 0){
+            
+            if(k == 0)
+                ret.insert(ret.begin(), 1, a[i]);
+            else
+            {
+                int m = a[i] - '0';
+                int t = m + k;
+                char c;
+                if(t < 2){
+                    c = t + '0';
+                    k = 0;
+                }
+                else{
+                    c = t - 2 +'0';
+                    k = 1;
+                } 
+                ret.insert(ret.begin(), 1, c);
+            }
+            i--;
+                    
+        }
+        while(j >= 0){
+            if(k == 0)
+                ret.insert(ret.begin(), 1, b[j]);
+            else
+            {
+                int m = b[j] - '0';
+                int t = m + k;
+                char c;
+                if(t < 2){
+                    c = t + '0';
+                    k = 0;
+                }
+                else{
+                    c = t - 2 +'0';
+                    k = 1;
+                } 
+                ret.insert(ret.begin(), 1, c);
+            }
+            j--;
+        }
+           
+        if(k > 0){
+            ret.insert(ret.begin(), 1, '1');
+        }
+        return ret;
+    }
+};
