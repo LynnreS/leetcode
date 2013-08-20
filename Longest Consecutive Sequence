@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int longestConsecutive(vector<int> &num) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int len = num.size();
+        if(len <= 1) return len;
+        int ret = 0;
+        unordered_map<int, int> num_map;
+        for(int i = 0; i < len; i++)
+            num_map[num[i]] = 1;
+        for(int i = 0; i < len; i++) {
+            if(num_map[num[i]]) {
+                int l = 1;
+                num_map[num[i]] = 0;
+                int t = num[i] - 1;
+                while(num_map.find(t)!=num_map.end() && num_map[t]) {
+                    num_map[t--] = 0;
+                    l++;
+                }
+                t = num[i] + 1;
+                while(num_map.find(t)!=num_map.end() && num_map[t]) {
+                    num_map[t++] = 0;
+                    l++;
+                }
+                if(ret < l) ret = l;
+            }
+        }
+        return ret;
+    }
+};
