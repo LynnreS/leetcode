@@ -1,0 +1,43 @@
+class Solution {
+public:
+    string minWindow(string S, string T) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        string ret = "";
+        if(S.length() == 0 || T.length() == 0 || T.length() > S.length()) return ret;
+      //  if(strcmp(S,T) == 0) return S;
+        
+        int findT[256] = {0};
+        for(int i = 0; i < T.length(); i++){
+            findT[T[i]]++;
+        }
+        int foundT[256] = {0};
+        int count = 0;
+        int minlen = INT_MAX;
+        int minBegin = 0;
+        int minEnd = -1;
+        for(int j = 0, i = 0; i < S.length(); i++){
+            if(findT[S[i]] == 0)
+                continue;
+            foundT[S[i]]++;
+            if(foundT[S[i]] <= findT[S[i]])
+                count++;
+            if(count == T.length()){
+                while(findT[S[j]] == 0 || foundT[S[j]] > findT[S[j]]){
+                    if(foundT[S[j]] > findT[S[j]])    
+                        foundT[S[j]]--;
+                    j++;
+                }
+                if(i - j + 1 < minlen ){
+                    minlen = i - j + 1;
+                    minBegin = j;
+                    minEnd = i;
+                }
+            }
+            
+        }
+        for(int i = minBegin; i <= minEnd; i++)
+            ret.push_back(S[i]);
+        return ret;
+    }
+};
