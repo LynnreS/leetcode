@@ -1,0 +1,38 @@
+class Solution {
+public:
+	int List_len(ListNode *head)
+	{
+		int len = 0;
+		ListNode *tmp = head;
+		while (tmp)
+		{
+			len++;
+			tmp = tmp->next;
+		}
+		return len;
+	}
+    ListNode *removeNthFromEnd(ListNode *head, int n) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+		
+        int len = List_len(head);
+		n = len - n;
+		if (n == 0)
+		{
+			return head->next;
+		}
+		
+		ListNode *ret = head;
+		ListNode *prev;
+
+		while(n--)
+		{
+			prev = head;
+			head = head->next;
+		}
+		prev->next = head->next;
+		delete head;
+
+		return ret;
+	}
+};
