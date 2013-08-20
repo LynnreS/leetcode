@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function    
+        int l1 = s1.length();
+        int l2 = s2.length();
+        int l3 = s3.length();
+        if(l3 != l1+l2) return false;
+        if(l3 == 0) return true;
+        bool flag[l2+1];  //flag[i]表示l2截止到i的子串可否与l1的子串构成s3相应的长度
+        memset(flag, 0, (l2+1)*sizeof(flag[0])); //数组需要显式初始化
+      // vector<bool> flag(l2+1); //向量自动初始化
+        flag[l2] = true;  //表示s2单独构成子串s3
+        for(int i = l2-1; i >= 0; i--) { //首先判断l1和l2的子串可以构成l3的长度
+            flag[i] = s3[l1+i]==s2[i] && flag[i+1];
+            if(!flag[i]) break;
+        }
+        for(int i = l1-1; i >= 0; i--) {
+            for(int j = l2-1; j >= 0; j--) {
+                if(s3[i+j] == s1[i] && flag[j]) //s3[i+j]以s1[i]结尾的前提是s2[j]可以构成这样的s3
+                    flag[j] = true;
+                else if(s3[i+j] == s2[j] && flag[j+1]) //s3[i+j]以s2[j] 结尾的前提是s2[j+1]可以构成s3[i][j+1]
+
+                    flag[j] = true;
+                else flag[j] = false;
+            }
+            flag[l2] = flag[l2] && s3[l2+i]==s1[i];//flag[l2]可以的取值依赖于s2是否可以和s1目前长度的子串构成相应的s3
+        }
+        return flag[0];
+    }
+};
