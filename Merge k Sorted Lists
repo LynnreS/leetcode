@@ -1,0 +1,49 @@
+bool cmp(const ListNode *p, const ListNode *q)
+  {
+	  return p->val < q->val;
+  }
+
+class Solution {
+public:
+    ListNode *mergeKLists(vector<ListNode *> &lists) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+		ListNode *ret = NULL;
+		for (int i = 0; i < lists.size(); i++)
+		{
+			if (lists[i] == NULL)
+			{
+				lists.erase(lists.begin()+i);
+				i--;
+			}
+		}
+		if (lists.size() == 1)
+		{
+			return lists[0];
+		}
+		else if (lists.size() > 1)
+		{
+			sort(lists.begin(), lists.end(), cmp);
+			ListNode *tmp = lists[0];
+			ret = tmp;
+			lists[0] = lists[0]->next;
+			if (lists[0] == NULL)
+			{
+				lists.erase (lists.begin());
+			}
+			while(lists.size())
+			{
+				sort(lists.begin(), lists.end(), cmp);
+				tmp->next = lists[0];
+				tmp = tmp->next;
+				lists[0] = lists[0]->next;
+				if (lists[0] == NULL)
+				{
+					lists.erase (lists.begin());
+				}
+			}
+		}
+		return ret;
+       
+    }
+};
