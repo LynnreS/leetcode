@@ -1,0 +1,37 @@
+class Solution {
+public:
+	int lengthOfLongestSubstring(string s) {
+		int flag[128];
+		for (int i = 0; i < 128; i++)
+		{
+			flag[i] = -1;
+		}
+		int len = 0;
+		int maxLen = 0;
+		for (int i = 0; i < s.size(); i++)
+		{
+			char a = s[i];
+			int lastIdx = flag[a];
+			if (lastIdx == -1)
+			{
+				len++;
+				flag[s[i]] = i;
+				if (maxLen < len)
+				{
+					maxLen = len;
+				}
+			}
+			else
+			{
+				int cur = i - len;
+				for (int j = cur; j < lastIdx; j++)
+				{
+					flag[s[j]] = -1;
+				}
+				len = i - lastIdx;
+				flag[s[i]] = i;
+			}
+		}
+		return maxLen;
+	}
+};
