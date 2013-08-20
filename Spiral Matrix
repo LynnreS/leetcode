@@ -1,0 +1,31 @@
+class Solution {
+public:
+    void sub(vector<vector<int> > &matrix, vector<int> &ret, int m, int n, int r, int c) {
+        if(m == 0 || n == 0) return;
+        if(m == 1) {
+            ret.insert(ret.end(), matrix[r].begin()+c, matrix[r].begin()+c+n);
+        }
+        else if(n == 1) {
+            for(int i = 0; i < m; i++)
+                ret.insert(ret.end(), matrix[r+i][c]);
+        }
+        else {
+            ret.insert(ret.end(), matrix[r].begin()+c, matrix[r].begin()+c+n);
+            for(int i = 1; i < m-1; i++)
+                ret.insert(ret.end(), matrix[r+i][c+n-1]);
+            for(int i = n-1; i >= 0; i--)
+                ret.insert(ret.end(), matrix[r+m-1][c+i]);
+            for(int i = m-2; i > 0; i--)
+                ret.insert(ret.end(), matrix[r+i][c]);
+            sub(matrix, ret, m-2, n-2, r+1, c+1);
+        }
+    }
+    vector<int> spiralOrder(vector<vector<int> > &matrix) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        vector<int> ret;
+        if(matrix.size() == 0) return ret;
+        sub(matrix, ret, matrix.size(), matrix[0].size(), 0, 0);
+        return ret;
+    }
+};
