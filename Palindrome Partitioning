@@ -1,0 +1,44 @@
+class Solution {
+public:
+    
+    void isPalindrome(string s, int len, vector<vector<bool> >&isP) {
+        for(int i = 0; i < len; i++) {
+            isP[i][i] = true;
+        }
+        for(int i = len-2; i >= 0; i--) {
+            isP[i][i+1] = s[i]==s[i+1];
+            for(int j = i+2; j < len; j++) {
+                isP[i][j] = s[i]==s[j] && isP[i+1][j-1]; 
+            }
+        }
+        
+    }
+    void dfs(string s, int start, vector<vector<string> > &ret, vector<vector<bool> >isP, vector<string> &tmp) {
+        if(start == s.length()) {
+            ret.push_back(tmp);
+            return;
+        }
+        for(int i = start; i < s.length(); i++) {
+            if(isP[start][i]) {
+                string newSub(s, start, i-start+1);
+                tmp.push_back(newSub);
+                dfs(s, i+1, ret, isP, tmp);
+                tmp.pop_back();
+            }
+        }
+    }
+    vector<vector<string>> partition(string s) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        vector<vector<string> > ret;
+        if(s.empty()) return ret;
+        int len = s.length();
+        vector<vector<bool> > isPalin(len, vector<bool>(len, false));
+          
+        isPalindrome(s, len, isPalin);
+        vector<string> tmp;
+        dfs(s, 0, ret, isPalin, tmp);
+        
+        return ret;
+    }
+};
