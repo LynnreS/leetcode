@@ -1,0 +1,70 @@
+class Solution {
+public:
+	bool isDigit(char c){
+		if(c >= '0' && c <= '9') return true;
+		return false;
+	}
+	bool isDot(char c){
+		if(c == '.') return true;
+		return false;
+	}
+	bool isE(char c){
+		if(c == 'e' || c == 'E') return true;
+		return false;
+	}
+	bool isC(char c){
+		if(c == '+' || c == '-') return true;
+		return false;
+	}
+	bool isNumber(const char *s) {
+		// Start typing your C/C++ solution below
+		// DO NOT write int main() function
+		if(s[0] == NULL) return false;
+		int l = strlen(s);
+		if(l == 1){
+			if(isDigit(s[0])) return true;
+			return false;
+		}
+
+		bool flagD = false;
+		bool flagE = false;
+		int i = 0;
+		while(i < l && s[i] == ' ') i++;
+		if(i == l) return false;
+		while(s[l-1] == ' ') l--;
+		if(isC(s[i])) i++;
+		int j = i;
+		for( ;i < l; i++){
+			if(s[i] == ' ')  return false;
+
+			if(isDigit(s[i])) continue;
+			if(isDot(s[i]) && !flagE && !flagD){
+
+				flagD = true;
+				if(i > j && i < l-1){
+					if((isDigit(s[i-1]) ||isC(s[i-1])) && (isDigit(s[i+1]) || (isDigit(s[i-1])&&isE(s[i+1]))|| isC(s[i+1])))
+						continue;
+					return false;
+				}
+				if(i == j && !isDigit(s[i+1])) return false;
+				if(i == l-1 && !isDigit(s[i-1])) return false;
+				continue;
+			}
+			if(isE(s[i] && !flagE)){
+				flagE = true;
+				if(i > 0 && i < l-1){
+					if((isDigit(s[i+1]) || isC(s[i+1])) && (isDigit(s[i-1]) || isDot(s[i-1])))
+						continue;
+				}
+				return false;
+			}
+			if(isC(s[i])){
+				if(i < l-1 && isDigit(s[i+1]) && (isE(s[i-1]))) continue;
+			}
+
+			return false;
+		}
+
+		return true;
+	}
+};
