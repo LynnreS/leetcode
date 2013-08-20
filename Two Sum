@@ -9,13 +9,14 @@ struct Node{
 class Solution {
 public:
 	bool cmp(const Node &a, const Node &b)
-  {
+        {
 	  return a.val < b.val;
-  }
+        }
 
 	vector<int> twoSum(vector<int> &numbers, int target) {
 		// Start typing your C/C++ solution below
 		// DO NOT write int main() function
+		
 		vector<Node> in_a;
 
 		for (int i = 0; i < numbers.size(); i++)
