@@ -1,0 +1,32 @@
+class Solution {
+public:
+	string intToRoman(int num) {
+		// Start typing your C/C++ solution below
+		// DO NOT write int main() function    
+		char x[4][9][5] = {{"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"},
+		                   {"X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"},
+		                   {"C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"},
+		                   {"M", "MM", "MMM"}};
+		string ret;
+		int count[4];
+		int i = 0;
+		while(num/10)
+		{
+			count[i] = num % 10;
+			num = num / 10;
+			i++;
+		}
+		count[i] = num;
+		while (i >= 0)
+		{
+			if (count[i] > 0)
+			{
+				ret.append(x[i][count[i]-1]);
+			}
+	
+			i--;
+			
+		}
+		return ret;
+	}
+};
