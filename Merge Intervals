@@ -1,0 +1,26 @@
+
+class Solution {
+public:
+ 
+    struct myclass {
+      public:
+        bool operator()(const Interval &i1, const Interval &i2) {
+          return i1.start < i2.start;
+        }
+    } myObject;
+    vector<Interval> merge(vector<Interval> &intervals) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        if(intervals.size() <= 1) return intervals;
+        sort(intervals.begin(), intervals.end(), myObject);
+        vector<Interval> ret;
+        int n = intervals.size();
+        for(int i = 0; i < n;) {
+            ret.push_back(intervals[i++]);
+            while(i < n && intervals[i].start <= ret.back().end) {
+                ret.back().end = max(intervals[i++].end, ret.back().end);
+            }
+        }
+        return ret;
+    }
+};
